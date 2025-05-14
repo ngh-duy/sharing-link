@@ -20,8 +20,13 @@
                     <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">devlinks</span>
                 </a>
                 <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-                    <button type="button"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Preview</button>
+                   <a href="./preview.html">
+  <button type="button"
+    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+    Preview
+  </button>
+</a>
+
                     <button data-collapse-toggle="navbar-cta" type="button"
                         class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                         aria-controls="navbar-cta" aria-expanded="false">
@@ -36,12 +41,12 @@
                 <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-cta">
                     <ul
                         class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                        <li class="flex items-center hover:text-blue-700 menu-link"click>
+                        <li class="flex items-center hover:text-blue-700 menu-link"  onclick="showContent('linkContent')">
                             <i class="fa-solid fa-link "></i>
                             <a href="#"
                                 class="block py-2 px-3 ml-2 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Link</a>
                         </li>
-                        <li class="flex items-center focus:text-blue-700 menu-link" click>
+                        <li class="flex items-center focus:text-blue-700 menu-link"  onclick="showContent('profileContent')">
                             <i class="fa-solid fa-id-card"></i>
                             <a href="#"
                                 class="block py-2 px-3 ml-2 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Profile
@@ -66,8 +71,8 @@
                 </div>
             </div>
         </div>
-        <div
-            class="max-w-auto mb-8  w-2xl bg-white lg:ml-24  border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+        <div id="linkContent"
+            class="max-w-auto mb-8 content-section w-2xl bg-white lg:ml-24  border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
             <div class="p-5 mb-4">
                 <a href="#">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Profile Details
@@ -127,10 +132,80 @@
             </div>
 
         </div>
+        <div id="profileContent"
+            class="max-w-auto mb-8 hidden  content-section w-2xl bg-white lg:ml-24  border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+            <div class="p-5 mb-4">
+                <div class="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow">
+  <h2 class="text-2xl font-semibold mb-4">Customize your links</h2>
+  <p class="text-gray-600 mb-6">Add/edit/remove links below and then share all your profiles with the world!</p>
+
+  <button class="w-full mb-6 py-2 px-4 border border-purple-500 text-purple-600 rounded hover:bg-purple-50 transition">
+    + Add new link
+  </button>
+
+  <!-- Link #1 -->
+  <div class="mb-6 border rounded-lg p-4 bg-gray-50">
+    <div class="flex justify-between items-center mb-4">
+      <span class="font-medium">Link #1</span>
+      <button class="text-red-500 text-sm hover:underline">Remove</button>
+    </div>
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700 mb-1">Platform</label>
+      <select class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+        <option selected>GitHub</option>
+        <option>YouTube</option>
+        <option>Twitter</option>
+        <option>LinkedIn</option>
+      </select>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Link</label>
+      <input type="text" value="https://www.github.com/benrwright" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500" />
+    </div>
+  </div>
+
+  <!-- Link #2 -->
+  <div class="mb-6 border rounded-lg p-4 bg-gray-50">
+    <div class="flex justify-between items-center mb-4">
+      <span class="font-medium">Link #2</span>
+      <button class="text-red-500 text-sm hover:underline">Remove</button>
+    </div>
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700 mb-1">Platform</label>
+      <select class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+        <option>GitHub</option>
+        <option selected>YouTube</option>
+        <option>Twitter</option>
+        <option>LinkedIn</option>
+      </select>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Link</label>
+      <input type="text" value="https://www.youtube.com/benrwright" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500" />
+    </div>
+  </div>
+</div>
+
+            </div>
+            <hr class="h-px mb-2 bg-gray-200 border-0 dark:bg-gray-700">
+            <div class="flex justify-self-end">
+                <button type="button"
+                    class="text-white mt-0 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5  text-center me-2 mb-2">SAVE</button>
+            </div>
+
+        </div>
     </section>
     <script src="./js/main.js">
-        
     </script>
+    <script>
+  function showContent(id) {
+    const sections = document.querySelectorAll('.content-section');
+    sections.forEach(section => {
+      section.classList.add('hidden');
+    });
+    document.getElementById(id).classList.remove('hidden');
+  }
+</script>
 </body>
 
 </html>
