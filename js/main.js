@@ -1,4 +1,5 @@
 window.addEventListener("DOMContentLoaded", detail);
+let base64Img = "";
 function CD(id) {
     let Id = document.getElementById(id);
     if (Id.id === "login") {
@@ -35,11 +36,13 @@ function registerAccount(e) {
     }
     let  firstName = null;
     let lastName= null;
+    let avt= "./images/user.jp";
     const user = {
-        email,
-        password,
+        email ,
+        password ,
         firstName ,
-        lastName
+        lastName,
+        avt
     };
     userAccounted.push(user);
     localStorage.setItem("accounts", JSON.stringify(userAccounted));
@@ -82,10 +85,11 @@ function detail() {
         document.getElementById("firstName").value = userCurrent.firstName;
         document.getElementById("lastName").value = userCurrent.lastName;
         document.getElementById("emailLoged").value = userCurrent.email;
+         document.getElementById("avt").src= userCurrent.avt;
     }
 }
-function saveInfo(e) {
-    e.preventDefault();
+function saveInfo() {
+    // e.preventDefault();
     const user = JSON.parse(localStorage.getItem("accounts"));
     const firstName = document.getElementById("firstName").value || null;
     const lastName = document.getElementById("lastName").value || null;
@@ -96,6 +100,8 @@ function saveInfo(e) {
        user[userCurrent].firstName = firstName;
        user[userCurrent].lastName = lastName;
        user[userCurrent].email = emailNew;
+       if(base64Img !== "")
+        user[userCurrent].avt = base64Img;
     }
     localStorage.setItem("emailLoginged",emailNew);
     localStorage.setItem("accounts",JSON.stringify(user));
@@ -103,4 +109,31 @@ function saveInfo(e) {
     const src = "./images/check.png";
     const idModal = document.getElementById("modal");
     modalNoneHidden(idModal, src, contentModal);
+    detail();
 }
+
+function previewImage(event) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = function () {
+        base64Img = reader.result;
+        const imagePreview = document.getElementById('image-preview');
+        imagePreview.src = reader.result;  
+        imagePreview.style.display = 'block';  
+        const file = document.getElementById("contentImage");
+        let hiddenContentImage= file.querySelectorAll("svg, p");
+        if (base64Img !== "") {
+       hiddenContentImage.forEach(element =>{
+            element.classList.add("hidden");
+       });
+        } else {
+       hiddenContentImage.forEach(element =>{
+            element.classList.remove("hidden");
+       });
+        }
+      };
+
+      if (file) {
+        reader.readAsDataURL(file);  // Đọc file ảnh
+      }
+    }

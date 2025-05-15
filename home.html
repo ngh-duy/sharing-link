@@ -88,7 +88,7 @@
     <!-- Bên trong màn hình điện thoại -->
     <div class="rounded-[2rem] overflow-hidden w-[272px] h-[572px] bg-white flex flex-col items-center p-4 gap-4">
       <!-- Avatar -->
-      <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Avatar"
+      <img src="" id="avt" alt="Avatar"
         class="w-24 h-24 rounded-full border-4 border-purple-500 mt-6" />
 
       <!-- Tên và email -->
@@ -130,19 +130,19 @@
           <!-- Upload -->
           <label for="dropzone-file"
             class="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 relative">
-            <div class="flex flex-col items-center justify-center pt-5 pb-6">
-              <svg class="w-8 h-8 mb-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+            <div  id="contentImage" class="flex flex-col items-center justify-center pt-5 pb-6">
+              <svg  class="w-8 h-8  mb-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 20 16">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137" />
               </svg>
-              <p class="text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+              <p  class="text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop</p>
               <p class="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
             </div>
-            <input id="dropzone-file" type="file" class="hidden" onchange="previewImage(event)" />
+            <input id="dropzone-file" type="file" accept="image/**" class="hidden" onchange="previewImage(event)" />
 
             <!-- Hình ảnh preview sẽ được hiển thị bên trong khung -->
-            <img id="image-preview" class="absolute top-0 left-0 w-full h-full object-contain hidden" />
+            <img id="image-preview"   class="absolute top-0 left-0 w-full h-full object-contain hidden" />
           </label>
 
 
@@ -173,7 +173,7 @@
 
           <!-- Save Button -->
           <div class="mt-6 text-end">
-            <button onclick="saveInfo(event)"
+            <button onclick="saveInfo()"
               class="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white px-5 py-2.5 rounded-lg hover:opacity-90">SAVE</button>
           </div>
         </div>
@@ -261,23 +261,7 @@
     }
   });
 </script>
-  <script>
-    function previewImage(event) {
-      const file = event.target.files[0];
-      const reader = new FileReader();
 
-      reader.onload = function () {
-        const imagePreview = document.getElementById('image-preview');
-        imagePreview.src = reader.result;  // Gán dữ liệu ảnh vào src của thẻ img
-        imagePreview.style.display = 'block';  // Hiển thị ảnh preview
-      };
-
-      if (file) {
-        reader.readAsDataURL(file);  // Đọc file ảnh
-      }
-    }
-
-  </script>
     <script>
     fetch('./modal.html')
       .then(res => res.text())
