@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sharing-link</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" /> -->
+</head>
+
+<body class="bg-gray-50">
+  <!-- Navbar -->
+  <nav class="bg-white shadow">
+    <div class="max-w-screen-xl mx-auto px-4 py-4 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#" class="flex items-center space-x-2">
+        <img src="./images/link.png" class="h-8" alt="Logo" />
+        <span class="text-2xl font-bold">devlinks</span>
+      </a>
+
+      <!-- Menu desktop -->
+      <div class="lg:flex hidden space-x-8">
+        <button onclick="showContent('linkContent')" class="menu-link flex items-center space-x-2 hover:text-blue-700">
+          <i class="fa-solid fa-link"></i>
+          <span>Link</span>
+        </button>
+        <button onclick="showContent('profileContent')"
+          class="menu-link flex items-center space-x-2 hover:text-blue-700">
+          <i class="fa-solid fa-id-card"></i>
+          <span>Profile Details</span>
+        </button>
+      </div>
+
+      <!-- Preview & Dropdown Button -->
+      <div class="flex space-x-4 relative">
+        <a href="./preview.html">
+          <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Preview</button>
+        </a>
+        <!-- Dropdown toggle button -->
+        <button id="dropdownDefaultButton" onclick="chageLogin()" data-dropdown-toggle="dropdown" type="button"
+          class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+          <span class="sr-only">Open main menu</span>
+          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M1 1h15M1 7h15M1 13h15" />
+          </svg>
+        </button>
+
+        <!-- Dropdown menu -->
+        <div id="dropdown"
+          class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+            <li>
+              <a href="#"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Link</a>
+            </li>
+            <li>
+              <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Detail
+                profile</a>
+            </li>
+            <li>
+              <a id="contentMenuLR" onclick="logout()" href="./index.html"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"></a>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- Main Section -->
+  <section
+    class="flex flex-col lg:flex-row items-start justify-center px-4 py-10 space-y-10 lg:space-y-0 lg:space-x-10">
+    <!-- Mobile Preview -->
+    <div class="flex justify-center w-full lg:w-auto">
+      <div class="relative border-[14px] border-gray-800 rounded-[2.5rem] h-[600px] w-[300px] shadow-xl">
+        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-[148px] h-[18px] bg-gray-800 rounded-b-[1rem]">
+        </div>
+        <div class="absolute top-[124px] -start-[17px] w-[3px] h-[46px] bg-gray-800 rounded-s-lg"></div>
+        <div class="absolute top-[178px] -start-[17px] w-[3px] h-[46px] bg-gray-800 rounded-s-lg"></div>
+        <div class="absolute top-[142px] -end-[17px] w-[3px] h-[64px] bg-gray-800 rounded-e-lg"></div>
+        <div class="rounded-[2rem] overflow-hidden w-[272px] h-[572px] bg-white"></div>
+      </div>
+    </div>
+
+    <!-- Form Content -->
+    <div class="flex-1 max-w-3xl">
+      <!-- Navigation Tabs -->
+
+      <!-- Profile Form -->
+      <div id="linkContent" class="content-section">
+        <div class="bg-white p-6 rounded-lg shadow">
+          <h2 class="text-2xl font-semibold mb-4">Profile Details</h2>
+          <p class="text-gray-600 mb-6">Add your details to create a personal touch to your profile</p>
+
+          <!-- Upload -->
+          <label for="dropzone-file"
+            class="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 relative">
+            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+              <svg class="w-8 h-8 mb-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 20 16">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137" />
+              </svg>
+              <p class="text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+              <p class="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+            </div>
+            <input id="dropzone-file" type="file" class="hidden" onchange="previewImage(event)" />
+
+            <!-- Hình ảnh preview sẽ được hiển thị bên trong khung -->
+            <img id="image-preview" class="absolute top-0 left-0 w-full h-full object-contain hidden" />
+          </label>
+
+
+
+          <!-- Inputs -->
+          <form class="space-y-4 mt-6">
+            <div class="flex items-center">
+              <label for="firstName" class="w-1/3 text-gray-700 font-medium">First name <i
+                  class="text-red-500">*</i></label>
+              <input type="text" id="firstName" name="firstName"
+                class="w-2/3 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+                placeholder="Ben" />
+            </div>
+            <div class="flex items-center">
+              <label for="lastName" class="w-1/3 text-gray-700 font-medium">Last name <i
+                  class="text-red-500">*</i></label>
+              <input type="text" id="lastName" name="lastName"
+                class="w-2/3 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+                placeholder="Wright" />
+            </div>
+            <div class="flex items-center">
+              <label for="email" class="w-1/3 text-gray-700 font-medium">Email</label>
+              <input type="email" id="email" name="email"
+                class="w-2/3 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+                placeholder="ben@example.com" />
+            </div>
+          </form>
+
+          <!-- Save Button -->
+          <div class="mt-6 text-end">
+            <button
+              class="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white px-5 py-2.5 rounded-lg hover:opacity-90">SAVE</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Link Form -->
+      <div id="profileContent" class="content-section hidden">
+        <div class="bg-white p-6 rounded-lg shadow">
+          <h2 class="text-2xl font-semibold mb-4">Customize your links</h2>
+          <p class="text-gray-600 mb-6">Add/edit/remove links below and then share all your profiles with the world!</p>
+
+          <button
+            class="w-full mb-6 py-2 px-4 border border-purple-500 text-purple-600 rounded hover:bg-purple-50 transition">+
+            Add new link</button>
+
+          <div class="space-y-6">
+            <!-- Link Card 1 -->
+            <div class="p-4 bg-gray-50 border rounded-lg">
+              <div class="flex justify-between mb-4">
+                <span class="font-medium">Link #1</span>
+                <button class="text-red-500 text-sm hover:underline">Remove</button>
+              </div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Platform</label>
+              <select
+                class="w-full mb-3 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                <option selected>GitHub</option>
+                <option>YouTube</option>
+                <option>Twitter</option>
+                <option>LinkedIn</option>
+              </select>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Link</label>
+              <input type="text"
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                value="https://www.github.com/benrwright" />
+            </div>
+
+            <!-- Link Card 2 -->
+            <div class="p-4 bg-gray-50 border rounded-lg">
+              <div class="flex justify-between mb-4">
+                <span class="font-medium">Link #2</span>
+                <button class="text-red-500 text-sm hover:underline">Remove</button>
+              </div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Platform</label>
+              <select
+                class="w-full mb-3 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                <option>GitHub</option>
+                <option selected>YouTube</option>
+                <option>Twitter</option>
+                <option>LinkedIn</option>
+              </select>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Link</label>
+              <input type="text"
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                value="https://www.youtube.com/benrwright" />
+            </div>
+          </div>
+
+          <div class="mt-6 text-end">
+            <button
+              class="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white px-5 py-2.5 rounded-lg hover:opacity-90">SAVE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- JS  -->
+  <script>
+    function showContent(id) {
+      document.querySelectorAll('.content-section').forEach(el => el.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+      document.querySelectorAll('.menu-link').forEach(el => el.classList.remove('text-blue-700', 'font-semibold'));
+
+      // Thêm class active vào menu tab tương ứng
+      const activeTab = Array.from(document.querySelectorAll('.menu-link')).find(el => el.textContent.toLowerCase().includes(id.replace('Content', '').toLowerCase()));
+      if (activeTab) {
+        activeTab.classList.add('text-blue-700', 'font-semibold');
+      }
+    }
+
+  </script>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem("isLogin") !== "true") {
+      alert("Bạn chưa đăng nhập. Vui lòng đăng nhập để tiếp tục.");
+      window.location.href = "./index.html"; // chuyển về trang login
+    }
+  });
+</script>
+
+  <script>
+    function previewImage(event) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function () {
+        const imagePreview = document.getElementById('image-preview');
+        imagePreview.src = reader.result;  // Gán dữ liệu ảnh vào src của thẻ img
+        imagePreview.style.display = 'block';  // Hiển thị ảnh preview
+      };
+
+      if (file) {
+        reader.readAsDataURL(file);  // Đọc file ảnh
+      }
+    }
+
+  </script>
+  <script src="./js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+</body>
+
+</html>
