@@ -79,15 +79,43 @@
     class="flex flex-col lg:flex-row items-start justify-center px-4 py-10 space-y-10 lg:space-y-0 lg:space-x-10">
     <!-- Mobile Preview -->
     <div class="flex justify-center w-full lg:w-auto">
-      <div class="relative border-[14px] border-gray-800 rounded-[2.5rem] h-[600px] w-[300px] shadow-xl">
-        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-[148px] h-[18px] bg-gray-800 rounded-b-[1rem]">
-        </div>
-        <div class="absolute top-[124px] -start-[17px] w-[3px] h-[46px] bg-gray-800 rounded-s-lg"></div>
-        <div class="absolute top-[178px] -start-[17px] w-[3px] h-[46px] bg-gray-800 rounded-s-lg"></div>
-        <div class="absolute top-[142px] -end-[17px] w-[3px] h-[64px] bg-gray-800 rounded-e-lg"></div>
-        <div class="rounded-[2rem] overflow-hidden w-[272px] h-[572px] bg-white"></div>
+  <div class="relative border-[14px] border-gray-800 rounded-[2.5rem] h-[600px] w-[300px] shadow-xl">
+    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-[148px] h-[18px] bg-gray-800 rounded-b-[1rem]"></div>
+    <div class="absolute top-[124px] -start-[17px] w-[3px] h-[46px] bg-gray-800 rounded-s-lg"></div>
+    <div class="absolute top-[178px] -start-[17px] w-[3px] h-[46px] bg-gray-800 rounded-s-lg"></div>
+    <div class="absolute top-[142px] -end-[17px] w-[3px] h-[64px] bg-gray-800 rounded-e-lg"></div>
+
+    <!-- Bên trong màn hình điện thoại -->
+    <div class="rounded-[2rem] overflow-hidden w-[272px] h-[572px] bg-white flex flex-col items-center p-4 gap-4">
+      <!-- Avatar -->
+      <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Avatar"
+        class="w-24 h-24 rounded-full border-4 border-purple-500 mt-6" />
+
+      <!-- Tên và email -->
+      <div class="text-center">
+        <h2 class="text-lg font-semibold">Ben Wright</h2>
+        <p class="text-gray-500 text-sm">ben@example.com</p>
+      </div>
+
+      <!-- Nút liên kết -->
+      <div class="w-full flex flex-col gap-3 mt-4">
+        <a href="#" class="flex items-center justify-between bg-black text-white px-4 py-2 rounded-lg">
+          <span>GitHub</span>
+          <span>→</span>
+        </a>
+        <a href="#" class="flex items-center justify-between bg-red-600 text-white px-4 py-2 rounded-lg">
+          <span>YouTube</span>
+          <span>→</span>
+        </a>
+        <a href="#" class="flex items-center justify-between bg-blue-600 text-white px-4 py-2 rounded-lg">
+          <span>LinkedIn</span>
+          <span>→</span>
+        </a>
       </div>
     </div>
+  </div>
+</div>
+
 
     <!-- Form Content -->
     <div class="flex-1 max-w-3xl">
@@ -137,7 +165,7 @@
             </div>
             <div class="flex items-center">
               <label for="email" class="w-1/3 text-gray-700 font-medium">Email</label>
-              <input type="email" id="email" name="email"
+              <input type="email" id="emailLoged" name="email"
                 class="w-2/3 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
                 placeholder="ben@example.com" />
             </div>
@@ -145,7 +173,7 @@
 
           <!-- Save Button -->
           <div class="mt-6 text-end">
-            <button
+            <button onclick="saveInfo(event)"
               class="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white px-5 py-2.5 rounded-lg hover:opacity-90">SAVE</button>
           </div>
         </div>
@@ -217,16 +245,15 @@
       document.querySelectorAll('.content-section').forEach(el => el.classList.add('hidden'));
       document.getElementById(id).classList.remove('hidden');
       document.querySelectorAll('.menu-link').forEach(el => el.classList.remove('text-blue-700', 'font-semibold'));
-
       // Thêm class active vào menu tab tương ứng
       const activeTab = Array.from(document.querySelectorAll('.menu-link')).find(el => el.textContent.toLowerCase().includes(id.replace('Content', '').toLowerCase()));
       if (activeTab) {
         activeTab.classList.add('text-blue-700', 'font-semibold');
       }
     }
-
   </script>
   <script>
+    
   document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem("isLogin") !== "true") {
       alert("Bạn chưa đăng nhập. Vui lòng đăng nhập để tiếp tục.");
@@ -234,7 +261,6 @@
     }
   });
 </script>
-
   <script>
     function previewImage(event) {
       const file = event.target.files[0];
@@ -251,6 +277,15 @@
       }
     }
 
+  </script>
+    <script>
+    fetch('./modal.html')
+      .then(res => res.text())
+      .then(html => {
+        const modalWrapper = document.createElement('div');
+        modalWrapper.innerHTML = html;
+        document.body.appendChild(modalWrapper);
+      });
   </script>
   <script src="./js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
