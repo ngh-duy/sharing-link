@@ -52,10 +52,6 @@ Thêm script vào package.json:
 - HTML, Tailwind CSS
 - JavaScript (ES6)
 - Web APIs: localStorage, Clipboard API, Drag & Drop Events
-
-## 📄 Giấy phép
-
-Phát hành theo giấy phép MIT.
 ## Hướng dẫn deploy dự án .
 Điều kiện bắt buộc: Đã deploy lên github
 - B1: Vào trang https://www.netlify.com/ đăng ký tài khoản.
