@@ -21,17 +21,25 @@
     "email": "admin@gmail.com"
   }
 ]
-\`\`\`
+🧪 Test
+- Môi trường test
+Sử dụng Jest làm framework để viết và chạy unit test cho JavaScript.
 
-## 📁 Cấu trúc dự án
+- Cài đặt Jest: npm install --save-dev jest
+Nếu có thao tác DOM, bạn có thể dùng môi trường giả lập DOM mặc định của Jest (jsdom).
 
-\`\`\`
-📂 social-links-manager/
-├── index.html
-├── script.js
-├── README.md
-\`\`\`
+- Cấu trúc test
+Tách riêng logic xử lý (thêm, sửa, xóa, kéo thả liên kết) ra file riêng như user.js.
 
+Viết các file test trong thư mục __tests__ hoặc cùng thư mục với file logic user.test.js.
+
+- Cách chạy test
+Thêm script vào package.json:
+"scripts": {
+  "test": "jest"
+}
+- Chạy lệnh: npm test
+\`\`\`
 ## 🚀 Cách sử dụng
 
 1. Mở file `index.html` trong trình duyệt

@@ -1,0 +1,24 @@
+{
+  "name": "sharing-link",
+  "version": "1.0.0",
+  "description": "Ứng dụng web giúp người dùng quản lý và chia sẻ các liên kết mạng xã hội như **GitHub**, **YouTube**, **LinkedIn**, và **Twitter**. Hỗ trợ kéo thả để sắp xếp và chia sẻ liên kết cá nhân nhanh chóng.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ngh-duy/sharing-link.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ngh-duy/sharing-link/issues"
+  },
+  "homepage": "https://github.com/ngh-duy/sharing-link#readme",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
