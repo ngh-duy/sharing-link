@@ -3,163 +3,262 @@ window.addEventListener("DOMContentLoaded", detailLink);
 window.addEventListener("DOMContentLoaded", renderLinks);
 window.addEventListener("DOMContentLoaded", detailPreview);
 window.addEventListener('DOMContentLoaded', renderLinksPreview);
+window.addEventListener('DOMContentLoaded', () => {
+  const listAcc = JSON.parse(localStorage.getItem("listAccountRe"));
+  if (localStorage.getItem("remember") === "true") {
+    document.getElementById("emailLogin").value = listAcc[0];
+    document.getElementById("passwordLogin").value = listAcc[1];
+  }
+
+});
 let base64Img = "";
 function CD(id) {
-    let Id = document.getElementById(id);
-    if (Id.id === "login") {
-        Id.classList.add("hidden");
-        document.getElementById("register").classList.remove("hidden");
-    } else if (Id.id === "register") {
-        Id.classList.add("hidden");
-        document.getElementById("login").classList.remove("hidden");
-    }
+
+  let Id = document.getElementById(id);
+  if (Id.id === "login") {
+    Id.classList.add("hidden");
+    document.getElementById("register").classList.remove("hidden");
+  } else if (Id.id === "register") {
+    Id.classList.add("hidden");
+    document.getElementById("login").classList.remove("hidden");
+  }
 }
 function modalNoneHidden(id, srcImage, content) {
 
-    id.classList.remove("hidden");
-    let image = id.querySelector("img")
+  id.classList.remove("hidden");
+  let image = id.querySelector("img")
 
-    image.src = srcImage;
-    document.getElementById("content-modal").innerHTML = content;
+  image.src = srcImage;
+  document.getElementById("content-modal").innerHTML = content;
 }
 function closModal(id) {
-    document.getElementById(id).classList.add("hidden");
+  document.getElementById(id).classList.add("hidden");
 }
+function isStrongPassword(password) {
+  const minLength = /.{8,}/;
+  const upperCase = /[A-Z]/;
+  const lowerCase = /[a-z]/;
+  const number = /[0-9]/;
+  const specialChar = /[!@#$%^&*(),.?":{}|<>]/;
+
+  return (
+    minLength.test(password) &&
+    upperCase.test(password) &&
+    lowerCase.test(password) &&
+    number.test(password) &&
+    specialChar.test(password)
+  );
+}
+
 function registerAccount(e) {
-    e.preventDefault();
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirm-password").value;
-    if (password !== confirmPassword) {
-        alert("Mật khẩu nhập lại không đúng !!");
+  e.preventDefault();
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirm-password").value;
+  const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+
+  if (!gmailRegex.test(email)) {
+    alert("Gmail sai định dạng !!");
+    return; // Ngăn tiếp tục xử lý khi sai định dạng
+  }
+  if (!isStrongPassword(password)) {
+  const contentModal = `Mật khẩu không đủ mạnh! Vui lòng dùng ít nhất 8 ký tự, có chữ hoa, chữ thường, số và ký tự đặc biệt.`;
+  const src = "./images/frown.png";
+  const idModal = document.getElementById("modal");
+  modalNoneHidden(idModal, src, contentModal);
+  return;
+}
+  if (password !== confirmPassword) {
+    alert("Mật khẩu nhập lại không đúng !!");
+    return;
+  }
+  let userAccounted = JSON.parse(localStorage.getItem("accounts")) || [];
+  for (const user of userAccounted) {
+    if (user.email === email)
+    {
+      alert("Tài khoản đã tồn tại.")
+      return ;
     }
-    let userAccounted = JSON.parse(localStorage.getItem("accounts")) || [];
-    for (const user of userAccounted) {
-        if (user.email === email)
-            alert("Tài khoản đã tồn tại.")
+  }
+  let firstName = null;
+  let lastName = null;
+  let avt = "./images/user.jpg";
+  const user = {
+    email,
+    password,
+    firstName,
+    lastName,
+    avt
+  };
+  userAccounted.push(user);
+  localStorage.setItem("accounts", JSON.stringify(userAccounted));
+  const contentModal = `Chúc mừng bạn đã đăng ký thành công !`;
+  const src = "./images/swirl.png";
+  const idModal = document.getElementById("modal");
+  modalNoneHidden(idModal, src, contentModal);
+  CD('register');
+}
+let listAccountRemember = [];
+function login(e) {
+  e.preventDefault();
+  listAccountRemember = [];
+  const accout = JSON.parse(localStorage.getItem("accounts")) || [];
+  const emailLogin = document.getElementById("emailLogin").value;
+  const passwordLogin = document.getElementById("passwordLogin").value;
+  const user = accout.find(u => u.email === emailLogin && u.password === passwordLogin);
+  const userEmail = accout.find(u => u.email === emailLogin);
+  const remember = document.getElementById("remember");
+
+  if (user) {
+    localStorage.setItem("isLogin", "true");
+    localStorage.setItem("emailLoginged", user.email);
+    window.location.href = "./home.html";
+    if (remember.checked) {
+      localStorage.setItem("remember", true);
+      listAccountRemember.push(emailLogin);
+      listAccountRemember.push(passwordLogin);
+      localStorage.setItem("listAccountRe", JSON.stringify(listAccountRemember));
+    } else {
+      localStorage.setItem("remember", false);
     }
-    let firstName = null;
-    let lastName = null;
-    let avt = "./images/user.jpg";
-    const user = {
-        email,
-        password,
-        firstName,
-        lastName,
-        avt
-    };
-    userAccounted.push(user);
-    localStorage.setItem("accounts", JSON.stringify(userAccounted));
-    const contentModal = `Chúc mừng bạn đã đăng ký thành công !`;
-    const src = "./images/swirl.png";
+  } else if (emailLogin === "" && passwordLogin === "") {
+    const contentModal = `Email và mật khẩu không được để trống !!!`;
+    const src = "./images/frown.png";
     const idModal = document.getElementById("modal");
     modalNoneHidden(idModal, src, contentModal);
-    CD('register');
-}
-function login(e) {
-    e.preventDefault();
-    const accout = JSON.parse(localStorage.getItem("accounts")) || [];
-    const emailLogin = document.getElementById("emailLogin").value;
-    const passwordLogin = document.getElementById("passwordLogin").value;
-    const user = accout.find(u => u.email === emailLogin && u.password === passwordLogin);
-    if (user) {
-        localStorage.setItem("isLogin", "true");
-        localStorage.setItem("emailLoginged", user.email);
-        window.location.href = "./home.html";
+  } else if (!userEmail) {
+    const contentModal = `Tài khoản không tồn tại !!!`;
+    const src = "./images/frown.png";
+    const idModal = document.getElementById("modal");
+    modalNoneHidden(idModal, src, contentModal);
+  } else if (emailLogin === "") {
+    const contentModal = `Email không được để trống !!!`;
+    const src = "./images/frown.png";
+    const idModal = document.getElementById("modal");
+    modalNoneHidden(idModal, src, contentModal);
+  } else if (passwordLogin === "") {
+    const contentModal = `Password không được để trống !!!`;
+    const src = "./images/frown.png";
+    const idModal = document.getElementById("modal");
+    modalNoneHidden(idModal, src, contentModal);
+  }
+  else {
+    const contentModal = `Mật khẩu hoặc email sai !!!`;
+    const src = "./images/frown.png";
+    const idModal = document.getElementById("modal");
+    modalNoneHidden(idModal, src, contentModal);
+  }
 
-    } else {
-        const contentModal = `Mật khẩu hoặc email sai !!!`;
-        const src = "./images/frown.png";
-        const idModal = document.getElementById("modal");
-        modalNoneHidden(idModal, src, contentModal);
-    }
+
 }
 function logout() {
-    localStorage.setItem("isLogin", "false");
+  localStorage.setItem("isLogin", "false");
 }
 function chageLogin() {
-    document.getElementById("contentMenuLR").innerHTML = `Log out`;
+  document.getElementById("contentMenuLR").innerHTML = `Log out`;
 }
 
 function detail() {
-    const user = JSON.parse(localStorage.getItem("accounts"));
-    const emailLoged = localStorage.getItem("emailLoginged");
-    const userCurrent = user.find(u => u.email === emailLoged);
-    if (userCurrent) {
-        document.getElementById("firstName").value = userCurrent.firstName;
-        document.getElementById("lastName").value = userCurrent.lastName;
-        document.getElementById("emailLoged").value = userCurrent.email;
-        document.getElementById("avt").src = userCurrent.avt;
-        document.getElementById("FLName").innerHTML = userCurrent.firstName + userCurrent.lastName;
-        document.getElementById("emailContent").innerHTML = userCurrent.email;
-    }
+  const user = JSON.parse(localStorage.getItem("accounts"));
+  const emailLoged = localStorage.getItem("emailLoginged");
+  const userCurrent = user.find(u => u.email === emailLoged);
+  if (userCurrent) {
+    document.getElementById("firstName").value = userCurrent.firstName;
+    document.getElementById("lastName").value = userCurrent.lastName;
+    document.getElementById("emailLoged").value = userCurrent.email;
+    document.getElementById("avt").src = userCurrent.avt;
+    document.getElementById("FLName").innerHTML = userCurrent.firstName + userCurrent.lastName;
+    document.getElementById("emailContent").innerHTML = userCurrent.email;
+  }
 }
 function detailPreview() {
-    const user = JSON.parse(localStorage.getItem("accounts"));
-    const emailLoged = localStorage.getItem("emailLoginged");
-    const userCurrent = user.find(u => u.email === emailLoged);
-    if (userCurrent) {
-        document.getElementById("avt2").src = userCurrent.avt;
-        document.getElementById("FLName2").innerHTML = userCurrent.firstName + userCurrent.lastName;
-        document.getElementById("emailContent2").innerHTML = userCurrent.email;
-    }
+  const user = JSON.parse(localStorage.getItem("accounts"));
+  const emailLoged = localStorage.getItem("emailLoginged");
+  const userCurrent = user.find(u => u.email === emailLoged);
+  if (userCurrent) {
+    document.getElementById("avt2").src = userCurrent.avt;
+    document.getElementById("FLName2").innerHTML = userCurrent.firstName + userCurrent.lastName;
+    document.getElementById("emailContent2").innerHTML = userCurrent.email;
+  }
 }
 function saveInfo() {
-    // e.preventDefault();
-    const user = JSON.parse(localStorage.getItem("accounts"));
-    const firstName = document.getElementById("firstName").value || null;
-    const lastName = document.getElementById("lastName").value || null;
-    const emailNew = document.getElementById("emailLoged").value || null;
-    const emailLoged = localStorage.getItem("emailLoginged");
-    const userCurrent = user.findIndex(u => u.email === emailLoged);
-    if (userCurrent !== -1) {
-        user[userCurrent].firstName = firstName;
-        user[userCurrent].lastName = lastName;
-        user[userCurrent].email = emailNew;
-        if (base64Img !== "")
-            user[userCurrent].avt = base64Img;
-    }
-    localStorage.setItem("emailLoginged", emailNew);
-    localStorage.setItem("accounts", JSON.stringify(user));
-    const contentModal = `Lưu thành công !`;
-    const src = "./images/check.png";
-    const idModal = document.getElementById("modal");
-    modalNoneHidden(idModal, src, contentModal);
-    detail();
+  const user = JSON.parse(localStorage.getItem("accounts"));
+  const firstName = document.getElementById("firstName").value.trim();
+  const lastName = document.getElementById("lastName").value.trim();
+  const emailNew = document.getElementById("emailLoged").value.trim();
+  const emailLoged = localStorage.getItem("emailLoginged");
+  const userCurrent = user.findIndex(u => u.email === emailLoged);
+
+  // Kiểm tra trường trống
+  if (!firstName) {
+    modalNoneHidden(document.getElementById("modal"), "./images/frown.png", "FirstName không được để trống!");
+    return;
+  }
+
+  if (!lastName) {
+    modalNoneHidden(document.getElementById("modal"), "./images/frown.png", "LastName không được để trống!");
+    return;
+  }
+
+  if (!emailNew) {
+    modalNoneHidden(document.getElementById("modal"), "./images/frown.png", "Email không được để trống!");
+    return;
+  }
+  const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+
+  if (!gmailRegex.test(emailNew)) {
+    alert("Gmail sai định dạng !!");
+    return; // Ngăn tiếp tục xử lý khi sai định dạng
+  }
+  // Nếu tất cả đều hợp lệ thì mới tiến hành lưu
+  if (userCurrent !== -1) {
+    user[userCurrent].firstName = firstName;
+    user[userCurrent].lastName = lastName;
+    user[userCurrent].email = emailNew;
+    if (base64Img !== "")
+      user[userCurrent].avt = base64Img;
+  }
+
+  localStorage.setItem("emailLoginged", emailNew);
+  localStorage.setItem("accounts", JSON.stringify(user));
+
+  modalNoneHidden(document.getElementById("modal"), "./images/check.png", "Lưu thành công!");
+  detail();
 }
 
-function previewImage(event) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = function () {
-        base64Img = reader.result;
-        const imagePreview = document.getElementById('image-preview');
-        imagePreview.src = reader.result;
-        imagePreview.style.display = 'block';
-        const file = document.getElementById("contentImage");
-        let hiddenContentImage = file.querySelectorAll("svg, p");
-        if (base64Img !== "") {
-            hiddenContentImage.forEach(element => {
-                element.classList.add("hidden");
-            });
-        } else {
-            hiddenContentImage.forEach(element => {
-                element.classList.remove("hidden");
-            });
-        }
-    };
 
-    if (file) {
-        reader.readAsDataURL(file);  // Đọc file ảnh
+function previewImage(event) {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+  reader.onload = function () {
+    base64Img = reader.result;
+    const imagePreview = document.getElementById('image-preview');
+    imagePreview.src = reader.result;
+    imagePreview.style.display = 'block';
+    const file = document.getElementById("contentImage");
+    let hiddenContentImage = file.querySelectorAll("svg, p");
+    if (base64Img !== "") {
+      hiddenContentImage.forEach(element => {
+        element.classList.add("hidden");
+      });
+    } else {
+      hiddenContentImage.forEach(element => {
+        element.classList.remove("hidden");
+      });
     }
+  };
+
+  if (file) {
+    reader.readAsDataURL(file);  // Đọc file ảnh
+  }
 }
 let index = 1;
 function addLink(e) {
-    e.preventDefault();
-    const card = document.getElementById("cardLink");
-    let addCard = document.createElement("div");
-    addCard.className = "p-4 card bg-gray-50 border rounded-lg";
-    addCard.innerHTML = ` 
+  e.preventDefault();
+  const card = document.getElementById("cardLink");
+  let addCard = document.createElement("div");
+  addCard.className = "p-4 card bg-gray-50 border rounded-lg";
+  addCard.innerHTML = ` 
               <div class="flex justify-between mb-4">
                 <span class="font-medium">Link #${index}</span>
                 <button onclick="removeCard(this)" data-id="${card.id}" class="text-red-500 text-sm hover:underline">Remove</button>
@@ -177,62 +276,94 @@ function addLink(e) {
                 class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 value="https://www.github.com/benrwright" />
             `;
-    card.appendChild(addCard);
-    index++;
+  card.appendChild(addCard);
+  index++;
 
 }
+
+function isValidURL(url) {
+  const pattern = /^https:\/\/www\.[a-z0-9\-]+\.(com|net|org)(\/.*)?$/i;
+  return pattern.test(url);
+}
+
 function saveLink(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    const email = localStorage.getItem("emailLoginged");
-    if (!email) {
-        alert("Chưa đăng nhập!");
-        return;
-    }
+  const email = localStorage.getItem("emailLoginged");
+  if (!email) {
+    alert("Chưa đăng nhập!");
+    return;
+  }
 
-    const allCards = document.querySelectorAll(".card");
-    let listCard = JSON.parse(localStorage.getItem("cards")) || [];
-
-    // Xóa các link cũ của user đang login
-    listCard = listCard.filter(c => c.email !== email);
-
-    allCards.forEach(cardDiv => {
-        const select = cardDiv.querySelector("select");
-        const input = cardDiv.querySelector("input");
-
-        if (select && input) {
-            let card = {
-                  id: Date.now(), // ID duy nhất
-                option: select.value,
-                link: input.value,
-                email: email
-            };
-            listCard.push(card);
-        }
-    });
-    localStorage.setItem("cards", JSON.stringify(listCard));
-    const contentModal = `Lưu thành công !`;
-    const src = "./images/check.png";
+  const allCards = document.querySelectorAll(".card");
+  if(allCards.length === 0){
+     const contentModal = `Chưa có link nào được thêm.`;
+    const src = "./images/frown.png";
     const idModal = document.getElementById("modal");
     modalNoneHidden(idModal, src, contentModal);
-    detailLink();
-    renderLinks();
+    return;
+  }
+  let listCard = JSON.parse(localStorage.getItem("cards")) || [];
+
+  // Xóa các link cũ của user đang login
+  listCard = listCard.filter(c => c.email !== email);
+
+  let invalid = false; // Cờ kiểm tra có link sai hay không
+
+  allCards.forEach(cardDiv => {
+    const select = cardDiv.querySelector("select");
+    const input = cardDiv.querySelector("input");
+    const linkValue = input?.value?.trim();
+
+    if (select && input) {
+      if (!isValidURL(linkValue)) {
+        invalid = true;
+        input.classList.add("border", "border-red-500");
+      } else {
+        input.classList.remove("border", "border-red-500");
+
+        let card = {
+          id: Date.now(),
+          option: select.value,
+          link: linkValue,
+          email: email
+        };
+        listCard.push(card);
+      }
+    }
+  });
+
+  if (invalid) {
+    const contentModal = `Có ít nhất 1 link không đúng định dạng! Vui lòng kiểm tra lại.`;
+    const src = "./images/frown.png";
+    const idModal = document.getElementById("modal");
+    modalNoneHidden(idModal, src, contentModal);
+    return;
+  }
+
+  localStorage.setItem("cards", JSON.stringify(listCard));
+  const contentModal = `Lưu thành công !`;
+  const src = "./images/check.png";
+  const idModal = document.getElementById("modal");
+  modalNoneHidden(idModal, src, contentModal);
+  detailLink();
+  renderLinks();
 }
 
 function detailLink() {
-    const listLink = JSON.parse(localStorage.getItem("cards")) || [];
-    const emailLoged = localStorage.getItem("emailLoginged");
-    const myLinks = listLink.filter(e => e.email === emailLoged);
+  const listLink = JSON.parse(localStorage.getItem("cards")) || [];
+  const emailLoged = localStorage.getItem("emailLoginged");
+  const myLinks = listLink.filter(e => e.email === emailLoged);
 
-    const cardContainer = document.getElementById("cardLink");
-    cardContainer.innerHTML = ""; 
+  const cardContainer = document.getElementById("cardLink");
+  cardContainer.innerHTML = "";
 
-    let index = 1;
+  let index = 1;
 
-    for (const card of myLinks) {
-        let addCard = document.createElement("div");
-        addCard.className = "p-4 card bg-gray-50 border rounded-lg mb-4";
-        addCard.innerHTML = ` 
+  for (const card of myLinks) {
+    let addCard = document.createElement("div");
+    addCard.className = "p-4 card bg-gray-50 border rounded-lg mb-4";
+    addCard.innerHTML = ` 
             <div class="flex justify-between mb-4">
                 <span class="font-medium">Link #${index}</span>
                <button onclick="removeCard(this)" data-id="${card.id}" class="text-red-500 text-sm hover:underline">Remove</button>
@@ -250,9 +381,9 @@ function detailLink() {
                 class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 value="${card.link}" />
         `;
-        cardContainer.appendChild(addCard);
-        index++;
-    }
+    cardContainer.appendChild(addCard);
+    index++;
+  }
 }
 function renderLinks() {
   const listLink = JSON.parse(localStorage.getItem("cards")) || [];
@@ -286,23 +417,24 @@ function renderLinks() {
     a.innerHTML = `<span>${platform}</span><span>${icon}</span>`;
 
     container.appendChild(a);
+    enableDragAndDrop("listLinks")
   }
 }
 
 function removeCard(button) {
-    const id = button.getAttribute("data-id");
-    const email = localStorage.getItem("emailLoginged");
+  const id = button.getAttribute("data-id");
+  const email = localStorage.getItem("emailLoginged");
 
-    let cards = JSON.parse(localStorage.getItem("cards")) || [];
+  let cards = JSON.parse(localStorage.getItem("cards")) || [];
 
-    // Xóa đúng phần tử với id và email trùng khớp
-    cards = cards.filter(card => !(card.id == id && card.email === email));
+  // Xóa đúng phần tử với id và email trùng khớp
+  cards = cards.filter(card => !(card.id == id && card.email === email));
 
-    localStorage.setItem("cards", JSON.stringify(cards));
+  localStorage.setItem("cards", JSON.stringify(cards));
 
-    // Xóa khỏi DOM
-    const cardElement = button.closest(".card");
-    if (cardElement) cardElement.remove();
+  // Xóa khỏi DOM
+  const cardElement = button.closest(".card");
+  if (cardElement) cardElement.remove();
 }
 
 
@@ -345,48 +477,48 @@ function renderLinksPreview() {
     a.innerHTML = `${iconSvg} <span>${platform}</span>`;
 
     container.appendChild(a);
-    enableDragAndDrop() 
+    enableDragAndDrop("listLinks2")
   }
 }
-function enableDragAndDrop() {
-    const container = document.getElementById("listLinks2");
-    let draggedElement = null;
+function enableDragAndDrop(id) {
+  const container = document.getElementById(id);
+  let draggedElement = null;
 
-    container.addEventListener("dragstart", (e) => {
-      if (e.target.tagName === "A") {
-        draggedElement = e.target;
-        e.target.classList.add("opacity-50");
-      }
-    });
+  container.addEventListener("dragstart", (e) => {
+    if (e.target.tagName === "A") {
+      draggedElement = e.target;
+      e.target.classList.add("opacity-50");
+    }
+  });
 
-    container.addEventListener("dragend", (e) => {
-      e.target.classList.remove("opacity-50");
-    });
+  container.addEventListener("dragend", (e) => {
+    e.target.classList.remove("opacity-50");
+  });
 
-    container.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      const target = e.target.closest("a");
-      if (target && target !== draggedElement) {
-        target.classList.add("drag-over");
-      }
-    });
+  container.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    const target = e.target.closest("a");
+    if (target && target !== draggedElement) {
+      target.classList.add("drag-over");
+    }
+  });
 
-    container.addEventListener("dragleave", (e) => {
-      const target = e.target.closest("a");
-      if (target) {
-        target.classList.remove("drag-over");
-      }
-    });
+  container.addEventListener("dragleave", (e) => {
+    const target = e.target.closest("a");
+    if (target) {
+      target.classList.remove("drag-over");
+    }
+  });
 
-    container.addEventListener("drop", (e) => {
-      e.preventDefault();
-      const target = e.target.closest("a");
-      if (target && target !== draggedElement) {
-        target.classList.remove("drag-over");
-        container.insertBefore(draggedElement, target.nextSibling);
-      }
-    });
-  }
+  container.addEventListener("drop", (e) => {
+    e.preventDefault();
+    const target = e.target.closest("a");
+    if (target && target !== draggedElement) {
+      target.classList.remove("drag-over");
+      container.insertBefore(draggedElement, target.nextSibling);
+    }
+  });
+}
 
 
 
